@@ -1,0 +1,2398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>NEXUS ARCADE — Futuristic Game Hub</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root{
+  --bg:#050713;
+  --bg2:#090d1d;
+  --card:rgba(15,22,45,.72);
+  --line:rgba(100,210,255,.22);
+  --text:#eef7ff;
+  --muted:#8c9ab5;
+  --cyan:#00eaff;
+  --purple:#9b5cff;
+  --pink:#ff3cac;
+  --green:#39ff88;
+  --danger:#ff4f70;
+  --shadow:0 0 30px rgba(0,234,255,.10);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  min-height:100vh;
+  color:var(--text);
+  font-family:Poppins,sans-serif;
+  background:
+    radial-gradient(circle at 10% 10%,rgba(0,234,255,.08),transparent 30%),
+    radial-gradient(circle at 90% 20%,rgba(155,92,255,.10),transparent 30%),
+    linear-gradient(135deg,#03040b,#070b19 45%,#03040b);
+  overflow-x:hidden;
+}
+
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.18;
+  background-image:
+    linear-gradient(rgba(0,234,255,.07) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,234,255,.07) 1px,transparent 1px);
+  background-size:45px 45px;
+  mask-image:linear-gradient(to bottom,black,transparent);
+}
+
+button,input{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  padding:15px 5%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  background:rgba(3,5,14,.80);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--line);
+}
+
+.logo{
+  font-family:Orbitron,sans-serif;
+  font-size:24px;
+  font-weight:800;
+  letter-spacing:2px;
+  color:white;
+  text-shadow:0 0 15px var(--cyan);
+}
+
+.logo span{
+  color:var(--cyan);
+}
+
+.header-actions{
+  display:flex;
+  gap:8px;
+}
+
+.icon-btn{
+  width:42px;
+  height:42px;
+  border:1px solid var(--line);
+  background:rgba(10,20,40,.65);
+  color:white;
+  border-radius:12px;
+  transition:.25s;
+}
+
+.icon-btn:hover{
+  border-color:var(--cyan);
+  box-shadow:0 0 18px rgba(0,234,255,.25);
+  transform:translateY(-2px);
+}
+
+.hero{
+  padding:75px 5% 45px;
+  text-align:center;
+}
+
+.badge{
+  display:inline-block;
+  padding:7px 14px;
+  border:1px solid rgba(0,234,255,.35);
+  border-radius:50px;
+  color:var(--cyan);
+  font-size:12px;
+  letter-spacing:2px;
+  margin-bottom:18px;
+  background:rgba(0,234,255,.05);
+}
+
+.hero h1{
+  font-family:Orbitron,sans-serif;
+  font-size:clamp(38px,7vw,82px);
+  line-height:1;
+  letter-spacing:4px;
+  margin-bottom:20px;
+  background:linear-gradient(90deg,#fff,var(--cyan),#fff,var(--purple));
+  background-size:300%;
+  -webkit-background-clip:text;
+  color:transparent;
+  animation:gradient 6s linear infinite;
+}
+
+@keyframes gradient{
+  to{background-position:300%}
+}
+
+.hero p{
+  max-width:720px;
+  margin:auto;
+  color:var(--muted);
+  line-height:1.8;
+}
+
+.search-area{
+  max-width:850px;
+  margin:30px auto 0;
+  position:relative;
+}
+
+.search-area input{
+  width:100%;
+  padding:17px 20px;
+  padding-left:50px;
+  color:white;
+  background:rgba(12,18,38,.8);
+  border:1px solid var(--line);
+  border-radius:16px;
+  outline:none;
+  transition:.25s;
+}
+
+.search-area input:focus{
+  border-color:var(--cyan);
+  box-shadow:0 0 25px rgba(0,234,255,.15);
+}
+
+.search-icon{
+  position:absolute;
+  left:18px;
+  top:14px;
+  font-size:21px;
+}
+
+.categories{
+  padding:10px 5% 25px;
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:9px;
+}
+
+.cat{
+  padding:9px 15px;
+  border:1px solid var(--line);
+  background:rgba(10,18,36,.65);
+  color:#b9c8df;
+  border-radius:50px;
+  transition:.2s;
+}
+
+.cat:hover,
+.cat.active{
+  color:#001017;
+  background:var(--cyan);
+  border-color:var(--cyan);
+  box-shadow:0 0 20px rgba(0,234,255,.25);
+}
+
+.section{
+  padding:25px 5%;
+}
+
+.section-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:18px;
+}
+
+.section-title h2{
+  font-family:Orbitron,sans-serif;
+  font-size:20px;
+}
+
+.count{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(210px,1fr));
+  gap:16px;
+}
+
+.game-card{
+  position:relative;
+  overflow:hidden;
+  padding:20px;
+  min-height:190px;
+  border-radius:20px;
+  border:1px solid var(--line);
+  background:linear-gradient(145deg,rgba(15,24,48,.86),rgba(7,11,26,.82));
+  box-shadow:var(--shadow);
+  transition:.3s;
+}
+
+.game-card:before{
+  content:"";
+  position:absolute;
+  width:120px;
+  height:120px;
+  right:-50px;
+  top:-50px;
+  border-radius:50%;
+  background:var(--cyan);
+  filter:blur(65px);
+  opacity:.12;
+}
+
+.game-card:hover{
+  transform:translateY(-7px);
+  border-color:rgba(0,234,255,.6);
+  box-shadow:0 15px 45px rgba(0,234,255,.12);
+}
+
+.game-icon{
+  width:55px;
+  height:55px;
+  display:grid;
+  place-items:center;
+  border-radius:16px;
+  background:rgba(0,234,255,.08);
+  border:1px solid rgba(0,234,255,.18);
+  font-size:27px;
+  margin-bottom:15px;
+}
+
+.game-card h3{
+  font-family:Orbitron,sans-serif;
+  font-size:15px;
+  margin-bottom:7px;
+}
+
+.game-card p{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.6;
+  min-height:38px;
+}
+
+.card-bottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:16px;
+}
+
+.play-btn{
+  padding:8px 14px;
+  border:0;
+  border-radius:10px;
+  background:linear-gradient(90deg,var(--cyan),#54f5ff);
+  color:#001014;
+  font-weight:700;
+}
+
+.fav{
+  background:none;
+  border:0;
+  color:#61708a;
+  font-size:20px;
+}
+
+.fav.active{
+  color:#ff3cac;
+  text-shadow:0 0 12px #ff3cac;
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:500;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(0,0,0,.76);
+  backdrop-filter:blur(12px);
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  width:min(800px,100%);
+  max-height:90vh;
+  overflow:auto;
+  background:linear-gradient(145deg,#0c142a,#050814);
+  border:1px solid rgba(0,234,255,.35);
+  border-radius:25px;
+  box-shadow:0 0 80px rgba(0,234,255,.14);
+  padding:25px;
+}
+
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.modal-header h2{
+  font-family:Orbitron,sans-serif;
+  color:var(--cyan);
+}
+
+.close{
+  width:38px;
+  height:38px;
+  border-radius:10px;
+  border:1px solid var(--line);
+  background:#10182e;
+  color:white;
+}
+
+.game-area{
+  min-height:300px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:18px;
+}
+
+.primary{
+  border:0;
+  padding:11px 20px;
+  border-radius:11px;
+  background:linear-gradient(90deg,var(--cyan),var(--purple));
+  color:white;
+  font-weight:700;
+}
+
+.secondary{
+  border:1px solid var(--line);
+  padding:10px 17px;
+  border-radius:10px;
+  background:#0d1730;
+  color:white;
+}
+
+.result{
+  font-size:20px;
+  color:var(--cyan);
+  text-align:center;
+  min-height:30px;
+}
+
+.big-number{
+  font-family:Orbitron,sans-serif;
+  font-size:48px;
+}
+
+.ttt{
+  display:grid;
+  grid-template-columns:repeat(3,80px);
+  gap:8px;
+}
+
+.ttt button{
+  height:80px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:#0b1429;
+  color:white;
+  font-size:30px;
+}
+
+.ttt button:hover{
+  border-color:var(--cyan);
+}
+
+.memory{
+  display:grid;
+  grid-template-columns:repeat(4,65px);
+  gap:8px;
+}
+
+.memory-card{
+  height:65px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#0b1429;
+  color:transparent;
+  font-size:25px;
+}
+
+.memory-card.open{
+  color:white;
+  background:#112342;
+}
+
+.board2048{
+  display:grid;
+  grid-template-columns:repeat(4,70px);
+  gap:8px;
+  padding:10px;
+  background:#10172b;
+  border-radius:15px;
+}
+
+.tile{
+  width:70px;
+  height:70px;
+  display:grid;
+  place-items:center;
+  border-radius:9px;
+  background:#18233d;
+  font-family:Orbitron,sans-serif;
+  font-size:20px;
+}
+
+.tile:not(:empty){
+  background:rgba(0,234,255,.16);
+  border:1px solid rgba(0,234,255,.25);
+}
+
+.color-box{
+  width:180px;
+  height:100px;
+  border-radius:15px;
+  border:1px solid var(--line);
+}
+
+.reflex-box{
+  width:230px;
+  height:150px;
+  display:grid;
+  place-items:center;
+  border-radius:18px;
+  background:#10192e;
+  border:1px solid var(--line);
+  color:white;
+  font-size:20px;
+  user-select:none;
+}
+
+.reflex-box.ready{
+  background:#4a101c;
+}
+
+.reflex-box.go{
+  background:#0c693b;
+}
+
+.counter{
+  font-family:Orbitron,sans-serif;
+  font-size:48px;
+  color:var(--cyan);
+}
+
+footer{
+  margin-top:60px;
+  padding:35px 5%;
+  text-align:center;
+  border-top:1px solid var(--line);
+  color:var(--muted);
+}
+
+footer strong{
+  color:var(--cyan);
+  font-family:Orbitron,sans-serif;
+}
+
+.hidden{
+  display:none!important;
+}
+
+@media(max-width:600px){
+  header{
+    padding:12px 4%;
+  }
+
+  .logo{
+    font-size:18px;
+  }
+
+  .hero{
+    padding:55px 5% 30px;
+  }
+
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .game-card{
+    min-height:175px;
+    padding:15px;
+  }
+
+  .game-icon{
+    width:45px;
+    height:45px;
+    font-size:22px;
+  }
+
+  .game-card h3{
+    font-size:12px;
+  }
+
+  .ttt{
+    grid-template-columns:repeat(3,70px);
+  }
+
+  .ttt button{
+    height:70px;
+  }
+
+  .board2048{
+    transform:scale(.85);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">NEXUS<span>+</span>ARCADE</div>
+
+  <div class="header-actions">
+    <button class="icon-btn" onclick="toggleTheme()" title="Theme">◐</button>
+    <button class="icon-btn" onclick="toggleSound()" id="soundBtn" title="Sound">🔊</button>
+    <button class="icon-btn" onclick="openAbout()" title="About">ⓘ</button>
+  </div>
+</header>
+
+<section class="hero">
+
+  <div class="badge">NEXT-GEN BROWSER GAMING PLATFORM</div>
+
+  <h1>NEXUS ARCADE</h1>
+
+  <p>
+    Play quick games, challenge your reflexes, test your brain,
+    explore quizzes and use powerful random tools — all inside one
+    futuristic arcade.
+  </p>
+
+  <div class="search-area">
+    <span class="search-icon">⌕</span>
+    <input
+      id="search"
+      type="text"
+      placeholder="Search games, quizzes, tools..."
+      oninput="renderGames()"
+    >
+  </div>
+
+</section>
+
+<div class="categories" id="categories"></div>
+
+<section class="section">
+
+  <div class="section-title">
+    <h2 id="sectionTitle">ALL GAMES</h2>
+    <span class="count" id="gameCount"></span>
+  </div>
+
+  <div class="grid" id="gameGrid"></div>
+
+</section>
+
+<footer>
+  <p>© 2026 NEXUS ARCADE</p>
+  <p style="margin-top:8px">
+    Designed & Built by <strong>Ansh Kumar</strong>
+  </p>
+</footer>
+
+<!-- GAME MODAL -->
+<div class="modal" id="modal">
+
+  <div class="modal-box">
+
+    <div class="modal-header">
+      <h2 id="modalTitle">GAME</h2>
+      <button class="close" onclick="closeModal()">×</button>
+    </div>
+
+    <div class="game-area" id="gameArea"></div>
+
+  </div>
+
+</div>
+
+<script>
+
+/* =========================================================
+   NEXUS ARCADE
+   FUTURISTIC MULTI-GAME HUB
+   Built by Ansh Kumar
+========================================================= */
+
+const games = [
+
+/* PUZZLE */
+{id:"sudoku",name:"Sudoku",cat:"Puzzle",icon:"🔢",desc:"Classic number puzzle."},
+{id:"2048",name:"2048",cat:"Puzzle",icon:"🧩",desc:"Merge numbers and reach 2048."},
+{id:"memory",name:"Memory Match",cat:"Puzzle",icon:"🧠",desc:"Remember the hidden cards."},
+{id:"lights",name:"Lights Out",cat:"Puzzle",icon:"💡",desc:"Turn every light off."},
+{id:"numbers",name:"Number Guess",cat:"Puzzle",icon:"🎯",desc:"Find the secret number."},
+{id:"colors",name:"Color Guess",cat:"Puzzle",icon:"🌈",desc:"Test your color recognition."},
+
+/* ARCADE */
+{id:"snake",name:"Snake",cat:"Arcade",icon:"🐍",desc:"Classic snake arcade game."},
+{id:"pong",name:"Pong",cat:"Arcade",icon:"🏓",desc:"Beat the computer."},
+{id:"breakout",name:"Brick Breaker",cat:"Arcade",icon:"🧱",desc:"Destroy the blocks."},
+{id:"reaction",name:"Reaction Test",cat:"Arcade",icon:"⚡",desc:"How fast can you react?"},
+{id:"click",name:"Click Speed",cat:"Arcade",icon:"🖱️",desc:"Click as fast as possible."},
+{id:"whack",name:"Whack A Mole",cat:"Arcade",icon:"🔨",desc:"Hit the target quickly."},
+
+/* SKILL */
+{id:"math",name:"Quick Math",cat:"Skill",icon:"➗",desc:"Solve calculations quickly."},
+{id:"typing",name:"Speed Typing",cat:"Skill",icon:"⌨️",desc:"Test your typing speed."},
+{id:"aim",name:"Aim Trainer",cat:"Skill",icon:"🎯",desc:"Hit moving targets."},
+{id:"avoid",name:"Avoid Blocks",cat:"Skill",icon:"🚀",desc:"Survive as long as possible."},
+
+/* QUIZ */
+{id:"gk",name:"General Knowledge",cat:"Quiz",icon:"🌎",desc:"Test your GK."},
+{id:"science",name:"Science Quiz",cat:"Quiz",icon:"🔬",desc:"Science questions."},
+{id:"geography",name:"Geography Quiz",cat:"Quiz",icon:"🌍",desc:"Countries and places."},
+{id:"computer",name:"Computer Quiz",cat:"Quiz",icon:"💻",desc:"Technology questions."},
+{id:"cricket",name:"Cricket Quiz",cat:"Quiz",icon:"🏏",desc:"Cricket knowledge."},
+{id:"truefalse",name:"True / False",cat:"Quiz",icon:"✔️",desc:"Can you get them all right?"},
+
+/* WORD */
+{id:"wordscramble",name:"Word Scramble",cat:"Word",icon:"🔤",desc:"Unscramble the word."},
+{id:"hangman",name:"Hangman",cat:"Word",icon:"📝",desc:"Guess the hidden word."},
+{id:"wordsearch",name:"Word Search",cat:"Word",icon:"🔎",desc:"Find hidden words."},
+{id:"anagram",name:"Anagram",cat:"Word",icon:"🔠",desc:"Create words from letters."},
+
+/* BOARD */
+{id:"ttt",name:"Tic Tac Toe",cat:"Board",icon:"⭕",desc:"Classic X and O."},
+{id:"connect4",name:"Connect Four",cat:"Board",icon:"🔴",desc:"Connect four to win."},
+{id:"rps",name:"Rock Paper Scissors",cat:"Board",icon:"✊",desc:"Beat the computer."},
+
+/* TOOLS */
+{id:"coin",name:"Coin Flip",cat:"Tools",icon:"🪙",desc:"Flip a virtual coin."},
+{id:"dice",name:"Dice Roller",cat:"Tools",icon:"🎲",desc:"Roll one or more dice."},
+{id:"random",name:"Random Number",cat:"Tools",icon:"🔢",desc:"Generate random numbers."},
+{id:"wheel",name:"Spin Wheel",cat:"Tools",icon:"🎡",desc:"Spin a random wheel."},
+{id:"counter",name:"Click Counter",cat:"Tools",icon:"🔢",desc:"Count clicks."},
+{id:"stopwatch",name:"Stopwatch",cat:"Tools",icon:"⏱️",desc:"Simple stopwatch."},
+{id:"countdown",name:"Countdown",cat:"Tools",icon:"⏳",desc:"Create a countdown."},
+{id:"picker",name:"Random Picker",cat:"Tools",icon:"🎰",desc:"Pick a random item."}
+
+];
+
+const categories=[
+  "All",
+  "Puzzle",
+  "Arcade",
+  "Skill",
+  "Quiz",
+  "Word",
+  "Board",
+  "Tools"
+];
+
+let currentCategory="All";
+let sound=true;
+let favorites=JSON.parse(localStorage.getItem("nexusFav")||"[]");
+
+const categoryBox=document.getElementById("categories");
+
+categories.forEach(c=>{
+  const b=document.createElement("button");
+  b.className="cat"+(c==="All"?" active":"");
+  b.textContent=c;
+  b.onclick=()=>{
+    document.querySelectorAll(".cat").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
+    currentCategory=c;
+    renderGames();
+  };
+  categoryBox.appendChild(b);
+});
+
+function renderGames(){
+
+  const query=document.getElementById("search").value.toLowerCase();
+
+  const filtered=games.filter(g=>{
+
+    const categoryOK=
+      currentCategory==="All" ||
+      g.cat===currentCategory;
+
+    const searchOK=
+      g.name.toLowerCase().includes(query) ||
+      g.cat.toLowerCase().includes(query) ||
+      g.desc.toLowerCase().includes(query);
+
+    return categoryOK && searchOK;
+  });
+
+  document.getElementById("gameCount").textContent=
+    filtered.length+" games";
+
+  const grid=document.getElementById("gameGrid");
+  grid.innerHTML="";
+
+  filtered.forEach(g=>{
+
+    const fav=favorites.includes(g.id);
+
+    const card=document.createElement("div");
+    card.className="game-card";
+
+    card.innerHTML=`
+
+      <div class="game-icon">${g.icon}</div>
+
+      <h3>${g.name}</h3>
+
+      <p>${g.desc}</p>
+
+      <div class="card-bottom">
+
+        <button class="play-btn"
+          onclick="launch('${g.id}')">
+          PLAY
+        </button>
+
+        <button
+          class="fav ${fav?"active":""}"
+          onclick="favorite(event,'${g.id}')">
+          ♥
+        </button>
+
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+}
+
+renderGames();
+
+function favorite(e,id){
+
+  e.stopPropagation();
+
+  if(favorites.includes(id)){
+    favorites=favorites.filter(x=>x!==id);
+  }else{
+    favorites.push(id);
+  }
+
+  localStorage.setItem("nexusFav",JSON.stringify(favorites));
+
+  renderGames();
+}
+
+function launch(id){
+
+  const game=games.find(g=>g.id===id);
+
+  document.getElementById("modalTitle").textContent=
+    game.name.toUpperCase();
+
+  document.getElementById("modal").classList.add("show");
+
+  const area=document.getElementById("gameArea");
+
+  area.innerHTML="";
+
+  switch(id){
+
+    case"ttt": ttt(area); break;
+    case"rps": rps(area); break;
+    case"numbers": numberGuess(area); break;
+    case"reaction": reaction(area); break;
+    case"click": clickSpeed(area); break;
+    case"colors": colorGuess(area); break;
+    case"2048": game2048(area); break;
+    case"memory": memoryGame(area); break;
+    case"coin": coinFlip(area); break;
+    case"dice": diceRoller(area); break;
+    case"random": randomNumber(area); break;
+    case"counter": clickCounter(area); break;
+    case"countdown": countdown(area); break;
+    case"stopwatch": stopwatch(area); break;
+    case"wheel": spinWheel(area); break;
+    case"math": quickMath(area); break;
+    case"snake": snakeGame(area); break;
+    case"whack": whack(area); break;
+    case"wordscramble": wordScramble(area); break;
+    case"truefalse": trueFalse(area); break;
+    case"typing": typingGame(area); break;
+
+    default:
+
+      area.innerHTML=`
+        <div class="result">
+          🚧 ${game.name} module is ready for expansion.
+        </div>
+
+        <p style="color:var(--muted);text-align:center">
+          This game slot is part of the NEXUS ARCADE system.
+        </p>
+
+        <button class="primary" onclick="closeModal()">
+          BACK TO ARCADE
+        </button>
+      `;
+  }
+}
+
+function closeModal(){
+  document.getElementById("modal").classList.remove("show");
+}
+
+document.getElementById("modal").addEventListener("click",e=>{
+  if(e.target.id==="modal") closeModal();
+});
+
+/* =========================================================
+   TIC TAC TOE
+========================================================= */
+
+function ttt(area){
+
+  let board=["","","","","","","","",""];
+  let turn="X";
+  let over=false;
+
+  area.innerHTML=`
+    <div class="result" id="tttResult">Your turn — X</div>
+    <div class="ttt" id="tttBoard"></div>
+    <button class="secondary" onclick="launch('ttt')">RESTART</button>
+  `;
+
+  const b=document.getElementById("tttBoard");
+
+  board.forEach((_,i)=>{
+    const btn=document.createElement("button");
+
+    btn.onclick=()=>{
+
+      if(board[i]||over) return;
+
+      board[i]="X";
+      draw();
+
+      if(checkWinner(board,"X")){
+        document.getElementById("tttResult").textContent="🎉 You Win!";
+        over=true;
+        return;
+      }
+
+      if(board.every(Boolean)){
+        document.getElementById("tttResult").textContent="Draw!";
+        over=true;
+        return;
+      }
+
+      turn="O";
+
+      setTimeout(computer,300);
+    };
+
+    b.appendChild(btn);
+  });
+
+  function computer(){
+
+    const empty=board
+      .map((x,i)=>x?null:i)
+      .filter(x=>x!==null);
+
+    if(!empty.length)return;
+
+    const i=empty[Math.floor(Math.random()*empty.length)];
+
+    board[i]="O";
+
+    draw();
+
+    if(checkWinner(board,"O")){
+      document.getElementById("tttResult").textContent=
+        "Computer wins!";
+      over=true;
+      return;
+    }
+
+    turn="X";
+
+    document.getElementById("tttResult").textContent=
+      "Your turn — X";
+  }
+
+  function draw(){
+
+    [...b.children].forEach((btn,i)=>{
+      btn.textContent=board[i];
+    });
+  }
+
+  function checkWinner(b,p){
+
+    return [
+      [0,1,2],[3,4,5],[6,7,8],
+      [0,3,6],[1,4,7],[2,5,8],
+      [0,4,8],[2,4,6]
+    ].some(x=>x.every(i=>b[i]===p));
+  }
+}
+
+/* =========================================================
+   ROCK PAPER SCISSORS
+========================================================= */
+
+function rps(area){
+
+  area.innerHTML=`
+
+    <div class="result" id="rpsResult">
+      Choose your move
+    </div>
+
+    <div style="
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      justify-content:center">
+
+      <button class="primary" onclick="playRPS('Rock')">
+        ✊ Rock
+      </button>
+
+      <button class="primary" onclick="playRPS('Paper')">
+        ✋ Paper
+      </button>
+
+      <button class="primary" onclick="playRPS('Scissors')">
+        ✌️ Scissors
+      </button>
+
+    </div>
+  `;
+}
+
+function playRPS(user){
+
+  const choices=["Rock","Paper","Scissors"];
+
+  const computer=
+    choices[Math.floor(Math.random()*3)];
+
+  let result;
+
+  if(user===computer)
+    result="Draw 🤝";
+  else if(
+    (user==="Rock"&&computer==="Scissors")||
+    (user==="Paper"&&computer==="Rock")||
+    (user==="Scissors"&&computer==="Paper")
+  )
+    result="You Win 🎉";
+  else
+    result="Computer Wins 🤖";
+
+  document.getElementById("rpsResult").innerHTML=
+    `You: <b>${user}</b><br>
+     Computer: <b>${computer}</b><br><br>
+     ${result}`;
+}
+
+/* =========================================================
+   NUMBER GUESS
+========================================================= */
+
+function numberGuess(area){
+
+  const secret=Math.floor(Math.random()*100)+1;
+
+  area.innerHTML=`
+
+    <p style="color:var(--muted)">
+      Guess a number between 1 and 100
+    </p>
+
+    <input id="guessInput"
+      type="number"
+      min="1"
+      max="100"
+      style="
+        padding:12px;
+        width:200px;
+        background:#0b1429;
+        color:white;
+        border:1px solid var(--line);
+        border-radius:10px;
+        outline:none">
+
+    <button class="primary" onclick="checkGuess()">
+      GUESS
+    </button>
+
+    <div class="result" id="guessResult"></div>
+  `;
+
+  window.checkGuess=function(){
+
+    const n=Number(
+      document.getElementById("guessInput").value
+    );
+
+    const r=document.getElementById("guessResult");
+
+    if(!n){
+      r.textContent="Enter a number.";
+      return;
+    }
+
+    if(n===secret){
+      r.textContent="🎉 Correct!";
+    }else if(n<secret){
+      r.textContent="⬆️ Try higher";
+    }else{
+      r.textContent="⬇️ Try lower";
+    }
+  };
+}
+
+/* =========================================================
+   REACTION TEST
+========================================================= */
+
+function reaction(area){
+
+  area.innerHTML=`
+
+    <div class="result" id="reactionText">
+      Click START and wait for green...
+    </div>
+
+    <div class="reflex-box" id="reactionBox">
+      START
+    </div>
+
+    <div class="result" id="reactionScore"></div>
+  `;
+
+  const box=document.getElementById("reactionBox");
+
+  let startTime;
+  let timer;
+
+  box.onclick=()=>{
+
+    if(box.classList.contains("ready")){
+
+      clearTimeout(timer);
+
+      box.classList.remove("ready");
+      box.classList.add("go");
+
+      startTime=performance.now();
+
+      document.getElementById("reactionText").textContent=
+        "CLICK NOW!";
+
+    }else if(box.classList.contains("go")){
+
+      const time=Math.round(
+        performance.now()-startTime
+      );
+
+      box.classList.remove("go");
+
+      document.getElementById("reactionText").textContent=
+        "Your reaction time";
+
+      document.getElementById("reactionScore").textContent=
+        time+" ms";
+
+      box.textContent="RESTART";
+
+    }else{
+
+      box.textContent="WAIT...";
+
+      box.classList.add("ready");
+
+      timer=setTimeout(()=>{
+
+        box.classList.remove("ready");
+        box.classList.add("go");
+        box.textContent="CLICK!";
+
+        startTime=performance.now();
+
+      },1000+Math.random()*3000);
+    }
+  };
+}
+
+/* =========================================================
+   CLICK SPEED
+========================================================= */
+
+function clickSpeed(area){
+
+  area.innerHTML=`
+
+    <div class="result">
+      Click as many times as possible in 10 seconds.
+    </div>
+
+    <div class="counter" id="clickCount">0</div>
+
+    <button class="primary"
+      id="clickGameBtn">
+      START
+    </button>
+
+    <div class="result" id="clickTimer">
+      10
+    </div>
+  `;
+
+  let count=0;
+  let time=10;
+  let active=false;
+  let timer;
+
+  const btn=document.getElementById("clickGameBtn");
+
+  btn.onclick=()=>{
+
+    if(active){
+
+      count++;
+      document.getElementById("clickCount")
+        .textContent=count;
+
+      return;
+    }
+
+    active=true;
+    count=0;
+    time=10;
+
+    btn.textContent="CLICK!";
+
+    timer=setInterval(()=>{
+
+      time--;
+
+      document.getElementById("clickTimer")
+        .textContent=time;
+
+      if(time<=0){
+
+        clearInterval(timer);
+        active=false;
+
+        btn.textContent="RESTART";
+
+        document.getElementById("clickTimer")
+          .textContent=
+          `Score: ${count} clicks`;
+      }
+
+    },1000);
+  };
+}
+
+/* =========================================================
+   COLOR GUESS
+========================================================= */
+
+function colorGuess(area){
+
+  const colors=[
+    "#00eaff",
+    "#ff3cac",
+    "#9b5cff",
+    "#39ff88",
+    "#ffcc00",
+    "#ff4f70"
+  ];
+
+  const correct=
+    colors[Math.floor(Math.random()*colors.length)];
+
+  area.innerHTML=`
+
+    <div class="result">
+      Which color is the target?
+    </div>
+
+    <div class="color-box"
+      style="background:${correct}">
+    </div>
+
+    <div id="colorButtons"
+      style="
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:10px">
+    </div>
+
+    <div class="result" id="colorResult"></div>
+  `;
+
+  const box=document.getElementById("colorButtons");
+
+  colors.forEach(c=>{
+
+    const btn=document.createElement("button");
+
+    btn.style.width="55px";
+    btn.style.height="45px";
+    btn.style.borderRadius="10px";
+    btn.style.border="1px solid white";
+    btn.style.background=c;
+
+    btn.onclick=()=>{
+
+      document.getElementById("colorResult")
+        .textContent=
+        c===correct
+        ?"🎉 Correct!"
+        :"❌ Wrong!";
+    };
+
+    box.appendChild(btn);
+  });
+}
+
+/* =========================================================
+   2048
+========================================================= */
+
+function game2048(area){
+
+  let board=[
+    0,0,0,0,
+    0,0,0,0,
+    0,0,0,0,
+    0,0,0,0
+  ];
+
+  function add(){
+
+    const empty=board
+      .map((v,i)=>v===0?i:null)
+      .filter(v=>v!==null);
+
+    if(!empty.length)return;
+
+    board[
+      empty[Math.floor(Math.random()*empty.length)]
+    ]=Math.random()<.9?2:4;
+  }
+
+  add();
+  add();
+
+  area.innerHTML=`
+    <div class="board2048" id="board2048"></div>
+    <p style="color:var(--muted)">
+      Use arrow keys to move.
+    </p>
+    <button class="secondary"
+      onclick="launch('2048')">
+      RESTART
+    </button>
+  `;
+
+  function draw(){
+
+    const el=document.getElementById("board2048");
+
+    el.innerHTML="";
+
+    board.forEach(v=>{
+
+      const d=document.createElement("div");
+
+      d.className="tile";
+      d.textContent=v||"";
+
+      el.appendChild(d);
+    });
+  }
+
+  function move(dir){
+
+    let old=board.join(",");
+
+    function line(row){
+
+      let a=row.filter(Boolean);
+
+      for(let i=0;i<a.length-1;i++){
+
+        if(a[i]===a[i+1]){
+          a[i]*=2;
+          a[i+1]=0;
+        }
+      }
+
+      a=a.filter(Boolean);
+
+      while(a.length<4)a.push(0);
+
+      return a;
+    }
+
+    if(dir==="left"){
+
+      for(let r=0;r<4;r++){
+
+        const row=board.slice(r*4,r*4+4);
+        const n=line(row);
+
+        for(let c=0;c<4;c++)
+          board[r*4+c]=n[c];
+      }
+
+    }else if(dir==="right"){
+
+      for(let r=0;r<4;r++){
+
+        const row=board
+          .slice(r*4,r*4+4)
+          .reverse();
+
+        const n=line(row).reverse();
+
+        for(let c=0;c<4;c++)
+          board[r*4+c]=n[c];
+      }
+
+    }else if(dir==="up"){
+
+      for(let c=0;c<4;c++){
+
+        let col=[];
+
+        for(let r=0;r<4;r++)
+          col.push(board[r*4+c]);
+
+        const n=line(col);
+
+        for(let r=0;r<4;r++)
+          board[r*4+c]=n[r];
+      }
+
+    }else if(dir==="down"){
+
+      for(let c=0;c<4;c++){
+
+        let col=[];
+
+        for(let r=0;r<4;r++)
+          col.push(board[r*4+c]);
+
+        const n=line(col.reverse()).reverse();
+
+        for(let r=0;r<4;r++)
+          board[r*4+c]=n[r];
+      }
+    }
+
+    if(board.join(",")!==old)
+      add();
+
+    draw();
+  }
+
+  window.addEventListener("keydown",window.nexus2048);
+
+  window.nexus2048=e=>{
+
+    if(!document.getElementById("board2048"))return;
+
+    const map={
+      ArrowLeft:"left",
+      ArrowRight:"right",
+      ArrowUp:"up",
+      ArrowDown:"down"
+    };
+
+    if(map[e.key]){
+
+      e.preventDefault();
+      move(map[e.key]);
+    }
+  };
+
+  draw();
+}
+
+/* =========================================================
+   MEMORY
+========================================================= */
+
+function memoryGame(area){
+
+  const symbols=[
+    "🚀","🚀","🌙","🌙",
+    "⭐","⭐","🔥","🔥"
+  ].sort(()=>Math.random()-.5);
+
+  area.innerHTML=`
+    <div class="memory" id="memoryBoard"></div>
+    <div class="result" id="memoryResult"></div>
+  `;
+
+  let first=null;
+  let lock=false;
+  let matches=0;
+
+  symbols.forEach((s,i)=>{
+
+    const btn=document.createElement("button");
+
+    btn.className="memory-card";
+    btn.textContent=s;
+
+    btn.onclick=()=>{
+
+      if(lock||btn.classList.contains("open"))return;
+
+      btn.classList.add("open");
+
+      if(!first){
+
+        first=btn;
+
+      }else{
+
+        if(first.textContent===btn.textContent){
+
+          matches++;
+          first=null;
+
+          if(matches===4)
+            document.getElementById("memoryResult")
+              .textContent="🎉 All matched!";
+
+        }else{
+
+          lock=true;
+
+          setTimeout(()=>{
+
+            first.classList.remove("open");
+            btn.classList.remove("open");
+
+            first=null;
+            lock=false;
+
+          },700);
+        }
+      }
+    };
+
+    document.getElementById("memoryBoard")
+      .appendChild(btn);
+  });
+}
+
+/* =========================================================
+   COIN FLIP
+========================================================= */
+
+function coinFlip(area){
+
+  area.innerHTML=`
+
+    <div class="big-number" id="coinResult">
+      🪙
+    </div>
+
+    <button class="primary" onclick="flipCoin()">
+      FLIP COIN
+    </button>
+  `;
+}
+
+function flipCoin(){
+
+  document.getElementById("coinResult")
+    .textContent=
+    Math.random()<.5
+    ?"HEADS"
+    :"TAILS";
+}
+
+/* =========================================================
+   DICE
+========================================================= */
+
+function diceRoller(area){
+
+  area.innerHTML=`
+
+    <div class="big-number" id="diceResult">
+      🎲
+    </div>
+
+    <button class="primary"
+      onclick="rollDice()">
+      ROLL DICE
+    </button>
+  `;
+}
+
+function rollDice(){
+
+  document.getElementById("diceResult")
+    .textContent=
+    Math.floor(Math.random()*6)+1;
+}
+
+/* =========================================================
+   RANDOM NUMBER
+========================================================= */
+
+function randomNumber(area){
+
+  area.innerHTML=`
+
+    <input id="minNum"
+      type="number"
+      placeholder="Minimum"
+      value="1"
+      style="
+      padding:10px;
+      background:#0b1429;
+      color:white;
+      border:1px solid var(--line);
+      border-radius:9px">
+
+    <input id="maxNum"
+      type="number"
+      placeholder="Maximum"
+      value="100"
+      style="
+      padding:10px;
+      background:#0b1429;
+      color:white;
+      border:1px solid var(--line);
+      border-radius:9px">
+
+    <button class="primary"
+      onclick="generateRandom()">
+      GENERATE
+    </button>
+
+    <div class="big-number"
+      id="randomResult">
+      ?
+    </div>
+  `;
+}
+
+function generateRandom(){
+
+  const min=Number(document.getElementById("minNum").value);
+  const max=Number(document.getElementById("maxNum").value);
+
+  if(max<min)return;
+
+  document.getElementById("randomResult")
+    .textContent=
+    Math.floor(Math.random()*(max-min+1))+min;
+}
+
+/* =========================================================
+   CLICK COUNTER
+========================================================= */
+
+function clickCounter(area){
+
+  area.innerHTML=`
+
+    <div class="counter" id="counterValue">
+      0
+    </div>
+
+    <button class="primary"
+      onclick="increaseCounter()">
+      CLICK
+    </button>
+
+    <button class="secondary"
+      onclick="resetCounter()">
+      RESET
+    </button>
+  `;
+}
+
+let counterValue=0;
+
+function increaseCounter(){
+
+  counterValue++;
+
+  document.getElementById("counterValue")
+    .textContent=counterValue;
+}
+
+function resetCounter(){
+
+  counterValue=0;
+
+  document.getElementById("counterValue")
+    .textContent=0;
+}
+
+/* =========================================================
+   COUNTDOWN
+========================================================= */
+
+function countdown(area){
+
+  area.innerHTML=`
+
+    <input id="countSeconds"
+      type="number"
+      min="1"
+      value="10"
+      style="
+      padding:12px;
+      background:#0b1429;
+      color:white;
+      border:1px solid var(--line);
+      border-radius:10px">
+
+    <button class="primary"
+      onclick="startCountdown()">
+      START
+    </button>
+
+    <div class="counter"
+      id="countResult">
+      10
+    </div>
+  `;
+}
+
+let countInterval;
+
+function startCountdown(){
+
+  clearInterval(countInterval);
+
+  let seconds=
+    Number(document.getElementById("countSeconds").value);
+
+  const output=document.getElementById("countResult");
+
+  output.textContent=seconds;
+
+  countInterval=setInterval(()=>{
+
+    seconds--;
+
+    output.textContent=seconds;
+
+    if(seconds<=0){
+
+      clearInterval(countInterval);
+      output.textContent="DONE 🚀";
+    }
+
+  },1000);
+}
+
+/* =========================================================
+   STOPWATCH
+========================================================= */
+
+function stopwatch(area){
+
+  area.innerHTML=`
+
+    <div class="counter"
+      id="watch">
+      00:00:00
+    </div>
+
+    <div style="display:flex;gap:10px">
+
+      <button class="primary"
+        onclick="startWatch()">
+        START
+      </button>
+
+      <button class="secondary"
+        onclick="stopWatch()">
+        STOP
+      </button>
+
+      <button class="secondary"
+        onclick="resetWatch()">
+        RESET
+      </button>
+
+    </div>
+  `;
+}
+
+let watchStart=0;
+let watchInterval=null;
+let watchElapsed=0;
+
+function startWatch(){
+
+  if(watchInterval)return;
+
+  watchStart=Date.now()-watchElapsed;
+
+  watchInterval=setInterval(()=>{
+
+    watchElapsed=Date.now()-watchStart;
+
+    const sec=Math.floor(watchElapsed/1000);
+
+    const h=String(Math.floor(sec/3600)).padStart(2,"0");
+    const m=String(Math.floor(sec%3600/60)).padStart(2,"0");
+    const s=String(sec%60).padStart(2,"0");
+
+    document.getElementById("watch")
+      .textContent=`${h}:${m}:${s}`;
+
+  },200);
+}
+
+function stopWatch(){
+
+  clearInterval(watchInterval);
+  watchInterval=null;
+}
+
+function resetWatch(){
+
+  stopWatch();
+
+  watchElapsed=0;
+
+  document.getElementById("watch")
+    .textContent="00:00:00";
+}
+
+/* =========================================================
+   SPIN WHEEL
+========================================================= */
+
+function spinWheel(area){
+
+  area.innerHTML=`
+
+    <input id="wheelItems"
+      value="Red,Blue,Green,Yellow,Purple"
+      style="
+      width:100%;
+      max-width:500px;
+      padding:12px;
+      background:#0b1429;
+      color:white;
+      border:1px solid var(--line);
+      border-radius:10px">
+
+    <button class="primary"
+      onclick="spinWheelNow()">
+      SPIN
+    </button>
+
+    <div class="big-number"
+      id="wheelResult">
+      🎡
+    </div>
+  `;
+}
+
+function spinWheelNow(){
+
+  const items=document.getElementById("wheelItems")
+    .value
+    .split(",")
+    .map(x=>x.trim())
+    .filter(Boolean);
+
+  if(!items.length)return;
+
+  const result=
+    items[Math.floor(Math.random()*items.length)];
+
+  document.getElementById("wheelResult")
+    .textContent=result;
+}
+
+/* =========================================================
+   QUICK MATH
+========================================================= */
+
+function quickMath(area){
+
+  let a=Math.floor(Math.random()*20)+1;
+  let b=Math.floor(Math.random()*20)+1;
+
+  area.innerHTML=`
+
+    <div class="big-number">
+      ${a} + ${b} = ?
+    </div>
+
+    <input id="mathAnswer"
+      type="number"
+      style="
+      padding:12px;
+      background:#0b1429;
+      color:white;
+      border:1px solid var(--line);
+      border-radius:10px">
+
+    <button class="primary"
+      onclick="checkMath(${a+b})">
+      ANSWER
+    </button>
+
+    <div class="result"
+      id="mathResult">
+    </div>
+  `;
+}
+
+function checkMath(answer){
+
+  const value=
+    Number(document.getElementById("mathAnswer").value);
+
+  document.getElementById("mathResult")
+    .textContent=
+    value===answer
+    ?"🎉 Correct!"
+    :"❌ Try again!";
+}
+
+/* =========================================================
+   SNAKE
+========================================================= */
+
+function snakeGame(area){
+
+  area.innerHTML=`
+
+    <canvas id="snakeCanvas"
+      width="320"
+      height="320"
+      style="
+      max-width:100%;
+      background:#050a16;
+      border:1px solid var(--line);
+      border-radius:15px">
+    </canvas>
+
+    <div class="result" id="snakeScore">
+      Score: 0
+    </div>
+
+    <p style="color:var(--muted)">
+      Use arrow keys.
+    </p>
+
+    <button class="secondary"
+      onclick="launch('snake')">
+      RESTART
+    </button>
+  `;
+
+  const canvas=document.getElementById("snakeCanvas");
+  const ctx=canvas.getContext("2d");
+
+  const size=20;
+  let snake=[
+    {x:160,y:160},
+    {x:140,y:160},
+    {x:120,y:160}
+  ];
+
+  let dx=size;
+  let dy=0;
+
+  let food={
+    x:Math.floor(Math.random()*16)*size,
+    y:Math.floor(Math.random()*16)*size
+  };
+
+  let score=0;
+  let running=true;
+
+  function loop(){
+
+    if(!running)return;
+
+    setTimeout(()=>{
+
+      requestAnimationFrame(loop);
+
+      const head={
+        x:snake[0].x+dx,
+        y:snake[0].y+dy
+      };
+
+      if(
+        head.x<0 ||
+        head.y<0 ||
+        head.x>=canvas.width ||
+        head.y>=canvas.height ||
+        snake.some(s=>s.x===head.x&&s.y===head.y)
+      ){
+
+        running=false;
+
+        document.getElementById("snakeScore")
+          .textContent=
+          `Game Over — Score: ${score}`;
+
+        return;
+      }
+
+      snake.unshift(head);
+
+      if(head.x===food.x&&head.y===food.y){
+
+        score++;
+
+        document.getElementById("snakeScore")
+          .textContent=`Score: ${score}`;
+
+        food={
+          x:Math.floor(Math.random()*16)*size,
+          y:Math.floor(Math.random()*16)*size
+        };
+
+      }else{
+
+        snake.pop();
+      }
+
+      ctx.clearRect(0,0,320,320);
+
+      ctx.fillStyle="#00eaff";
+
+      snake.forEach(s=>{
+        ctx.fillRect(s.x,s.y,size-2,size-2);
+      });
+
+      ctx.fillStyle="#ff3cac";
+
+      ctx.fillRect(food.x,food.y,size-2,size-2);
+
+    },110);
+  }
+
+  window.onkeydown=e=>{
+
+    if(e.key==="ArrowUp"&&dy===0){
+      dx=0;
+      dy=-size;
+    }
+
+    if(e.key==="ArrowDown"&&dy===0){
+      dx=0;
+      dy=size;
+    }
+
+    if(e.key==="ArrowLeft"&&dx===0){
+      dx=-size;
+      dy=0;
+    }
+
+    if(e.key==="ArrowRight"&&dx===0){
+      dx=size;
+      dy=0;
+    }
+  };
+
+  loop();
+}
+
+/* =========================================================
+   WHACK A MOLE
+========================================================= */
+
+function whack(area){
+
+  area.innerHTML=`
+
+    <div style="
+      width:300px;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px"
+      id="moleBoard">
+    </div>
+
+    <div class="result" id="moleScore">
+      Score: 0
+    </div>
+  `;
+
+  const board=document.getElementById("moleBoard");
+
+  let score=0;
+
+  for(let i=0;i<9;i++){
+
+    const btn=document.createElement("button");
+
+    btn.style.height="70px";
+    btn.style.borderRadius="12px";
+    btn.style.border="1px solid var(--line)";
+    btn.style.background="#0b1429";
+    btn.style.fontSize="25px";
+
+    btn.onclick=()=>{
+
+      if(btn.textContent==="🐹"){
+
+        score++;
+
+        document.getElementById("moleScore")
+          .textContent=`Score: ${score}`;
+
+        btn.textContent="";
+      }
+    };
+
+    board.appendChild(btn);
+  }
+
+  setInterval(()=>{
+
+    [...board.children].forEach(x=>{
+      x.textContent="";
+    });
+
+    const i=Math.floor(Math.random()*9);
+
+    board.children[i].textContent="🐹";
+
+  },700);
+}
+
+/* =========================================================
+   WORD SCRAMBLE
+========================================================= */
+
+function wordScramble(area){
+
+  const words=[
+    "future",
+    "arcade",
+    "gaming",
+    "planet",
+    "rocket",
+    "galaxy",
+    "computer",
+    "javascript"
+  ];
+
+  const word=
+    words[Math.floor(Math.random()*words.length)];
+
+  const scrambled=
+    word.split("").sort(()=>Math.random()-.5).join("");
+
+  area.innerHTML=`
+
+    <div class="big-number">
+      ${scrambled}
+    </div>
+
+    <input id="wordAnswer"
+      placeholder="Your answer"
+      style="
+      padding:12px;
+      background:#0b1429;
+      color:white;
+      border:1px solid var(--line);
+      border-radius:10px">
+
+    <button class="primary"
+      onclick="checkWord('${word}')">
+      CHECK
+    </button>
+
+    <div class="result"
+      id="wordResult">
+    </div>
+  `;
+}
+
+function checkWord(word){
+
+  const answer=
+    document.getElementById("wordAnswer")
+      .value
+      .toLowerCase()
+      .trim();
+
+  document.getElementById("wordResult")
+    .textContent=
+    answer===word
+    ?"🎉 Correct!"
+    :`❌ Correct word: ${word}`;
+}
+
+/* =========================================================
+   TRUE / FALSE QUIZ
+========================================================= */
+
+function trueFalse(area){
+
+  const questions=[
+    ["The Earth revolves around the Sun.",true],
+    ["JavaScript is a programming language.",true],
+    ["The Moon is larger than Earth.",false],
+    ["Water freezes at 0°C.",true],
+    ["HTML is a programming language.",false]
+  ];
+
+  let index=0;
+  let score=0;
+
+  area.innerHTML=`
+    <div class="result" id="tfQuestion"></div>
+
+    <div style="display:flex;gap:10px">
+
+      <button class="primary"
+        onclick="answerTF(true)">
+        TRUE
+      </button>
+
+      <button class="secondary"
+        onclick="answerTF(false)">
+        FALSE
+      </button>
+
+    </div>
+
+    <div class="result" id="tfScore"></div>
+  `;
+
+  function show(){
+
+    document.getElementById("tfQuestion")
+      .textContent=questions[index][0];
+  }
+
+  window.answerTF=function(answer){
+
+    if(answer===questions[index][1])
+      score++;
+
+    index++;
+
+    if(index>=questions.length){
+
+      document.getElementById("tfQuestion")
+        .textContent="Quiz Complete 🎉";
+
+      document.getElementById("tfScore")
+        .textContent=
+        `Score: ${score}/${questions.length}`;
+
+      return;
+    }
+
+    show();
+  };
+
+  show();
+}
+
+/* =========================================================
+   TYPING GAME
+========================================================= */
+
+function typingGame(area){
+
+  const texts=[
+    "The future belongs to those who create it.",
+    "Gaming is better when the challenge is real.",
+    "Welcome to the Nexus futuristic arcade.",
+    "Build something amazing every single day."
+  ];
+
+  const text=
+    texts[Math.floor(Math.random()*texts.length)];
+
+  area.innerHTML=`
+
+    <p style="
+      max-width:600px;
+      text-align:center;
+      color:var(--cyan);
+      line-height:1.8">
+      ${text}
+    </p>
+
+    <textarea id="typingInput"
+      placeholder="Start typing..."
+      style="
+      width:100%;
+      max-width:600px;
+      min-height:110px;
+      padding:15px;
+      background:#0b1429;
+      color:white;
+      border:1px solid var(--line);
+      border-radius:12px;
+      outline:none">
+    </textarea>
+
+    <div class="result"
+      id="typingResult">
+      Start typing to calculate progress.
+    </div>
+  `;
+
+  const input=document.getElementById("typingInput");
+
+  const start=Date.now();
+
+  input.oninput=()=>{
+
+    const typed=input.value;
+
+    const correct=
+      [...typed].filter((c,i)=>c===text[i]).length;
+
+    const elapsed=
+      Math.max(1,(Date.now()-start)/60000);
+
+    const wpm=Math.round(
+      (typed.length/5)/elapsed
+    );
+
+    document.getElementById("typingResult")
+      .textContent=
+      `Progress: ${typed.length}/${text.length} | WPM: ${wpm}`;
+  };
+}
+
+/* =========================================================
+   THEME
+========================================================= */
+
+function toggleTheme(){
+
+  const root=document.documentElement;
+
+  if(root.style.getPropertyValue("--bg")==="#f1f7ff"){
+
+    root.style.setProperty("--bg","#050713");
+    root.style.setProperty("--bg2","#090d1d");
+    root.style.setProperty("--text","#eef7ff");
+
+  }else{
+
+    root.style.setProperty("--bg","#f1f7ff");
+    root.style.setProperty("--bg2","#ffffff");
+    root.style.setProperty("--text","#111827");
+  }
+}
+
+/* =========================================================
+   SOUND
+========================================================= */
+
+function toggleSound(){
+
+  sound=!sound;
+
+  document.getElementById("soundBtn")
+    .textContent=sound?"🔊":"🔇";
+}
+
+/* =========================================================
+   ABOUT
+========================================================= */
+
+function openAbout(){
+
+  document.getElementById("modalTitle")
+    .textContent="ABOUT NEXUS ARCADE";
+
+  document.getElementById("gameArea").innerHTML=`
+
+    <div style="text-align:center">
+
+      <div style="
+        font-family:Orbitron;
+        font-size:35px;
+        color:var(--cyan);
+        margin-bottom:15px">
+        NEXUS+
+      </div>
+
+      <p style="
+        color:var(--muted);
+        line-height:1.8;
+        max-width:550px">
+        A futuristic browser-based gaming hub designed
+        for quick games, brain challenges, quizzes,
+        arcade experiences and useful random tools.
+      </p>
+
+      <br>
+
+      <p>
+        <strong>Built by Ansh Kumar</strong>
+      </p>
+
+      <br>
+
+      <button class="primary"
+        onclick="closeModal()">
+        ENTER ARCADE
+      </button>
+
+    </div>
+  `;
+
+  document.getElementById("modal")
+    .classList.add("show");
+}
+
+</script>
+
+</body>
+</html>
